@@ -1,0 +1,8 @@
+services:
+  nginx-web:
+      build: .
+      image: srisatyap/my-react-app-dev:v1
+      ports:
+      - "8080:80"
+
+    
