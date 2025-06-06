@@ -6,14 +6,20 @@
             DOCKER_PROD_REPO = "srisatyap/prod"
         }
         stages{
-            stage('Debug Branch') {
-                steps {
-                    echo "Current branch: ${env.BRANCH_NAME}"
+            stage('Setting Branch Name') {
+                 steps {
+                    script {
+                    // Run git command to get the current branch
+                    def branch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                    echo "Detected Git branch: ${branch}"
+                    // Set it to environment variable
+                    env.BRANCH_NAME = branch
+                    }
                 }
             }
             stage('Docker Image building and pushing to dev repo'){
                 when {
-                    branch 'dev'
+                    expression { env.BRANCH_NAME == 'dev' }
                 }
                 steps {
                     script{
@@ -31,7 +37,7 @@
         }
         stage('Docker Image building and pushing to prod repo'){
                 when {
-                    branch 'main'
+                    expression { env.BRANCH_NAME == 'main' }
                 }
                 steps {
                    script{
