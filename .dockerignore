@@ -1,0 +1,27 @@
+# Ignore Git-related files and directories
+.git
+.gitignore
+.gitattributes
+# Ignore Node.js specific files and directories that are not needed for the build
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package.json      # Only if you're not running npm install in Docker
+package-lock.json # Only if you're not running npm install in Docker
+yarn.lock         # Only if you're not running yarn install in Docker
+
+# Ignore Docker Compose file and Nginx config as they are for orchestration/config, not part of the app layers
+docker-compose.yaml
+docker-compose.yml 
+
+# Other common ignore patterns
+.env*
+.vscode/
+.idea/
+*.log
+*.swp
+*.bak
+# Ignore source code if only the build output is needed
+src/
+public/
