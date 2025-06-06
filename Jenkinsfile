@@ -1,9 +1,6 @@
     pipeline{
         agent any 
         environment{
-            // Docker Hub Credentials
-            DOCKER_HUB_USERNAME = credentials('docker-hub-credentials').getUsername()
-            DOCKER_HUB_PASSWORD = credentials('docker-hub-credentials').getPassword()
             // Docker Hub public and private repository names
             DOCKER_DEV_REPO = "srisatyap/dev"
             DOCKER_PROD_REPO = "srisatyap/prod"
@@ -15,9 +12,14 @@
                 }
                 steps {
                     script{
-                        def buildTag = "devbuild-${env.BUILD_NUMBER}"
-                        echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
-                        sh "./build.sh ${env.DOCKER_DEV_REPO} ${buildTag}"
+                        // Docker Hub Credentials
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
+                            //Login to dockerhub using the above injected variables
+                            sh 'echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin'
+                            def buildTag = "devbuild-${env.BUILD_NUMBER}"
+                            echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
+                            sh "./build.sh ${env.DOCKER_DEV_REPO} ${buildTag}"
+                        }
                 
                 }
             }
@@ -27,10 +29,15 @@
                     branch 'main'
                 }
                 steps {
-                    script{
-                         def buildTag = "prodbuild-${env.BUILD_NUMBER}"
-                        echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
-                        sh "./build.sh ${env.DOCKER_PROD_REPO} ${buildTag}"
+                   script{
+                        // Docker Hub Credentials
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]){
+                            //Login to dockerhub using the above injected variables
+                            sh ' echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin'
+                            def buildTag = "prodbuild-${env.BUILD_NUMBER}"
+                            echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
+                            sh "./build.sh ${env.DOCKER_PROD_REPO} ${buildTag}"
+                        }
                 
                 }
             }
