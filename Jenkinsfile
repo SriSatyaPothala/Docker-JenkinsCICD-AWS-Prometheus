@@ -33,6 +33,7 @@
                             sh 'echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin'
                             def buildTag = "devbuild-${env.BUILD_NUMBER}"
                             echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
+                            sh "chmod +x ./build.sh"
                             sh "./build.sh ${env.DOCKER_DEV_REPO} ${buildTag}"
                         }
                 
@@ -51,6 +52,7 @@
                             sh ' echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin'
                             def buildTag = "prodbuild-${env.BUILD_NUMBER}"
                             echo "Building and pushing docker image to '${env.BRANCH_NAME}' with tag '${buildTag}'" 
+                            sh "chmod +x ./build.sh"
                             sh "./build.sh ${env.DOCKER_PROD_REPO} ${buildTag}"
                         }
                 
