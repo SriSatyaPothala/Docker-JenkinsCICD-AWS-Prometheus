@@ -17,6 +17,11 @@
                     }
                 }
             }
+            stage('show branch'){
+                steps{
+                    sh "echo ${env.BRANCH_NAME}"
+                }
+            }
             stage('Docker Image building and pushing to dev repo'){
                 when {
                     expression { env.BRANCH_NAME == 'dev' }
