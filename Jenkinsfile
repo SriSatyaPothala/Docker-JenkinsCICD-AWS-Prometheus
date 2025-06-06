@@ -6,6 +6,11 @@
             DOCKER_PROD_REPO = "srisatyap/prod"
         }
         stages{
+            stage('Debug Branch') {
+                steps {
+                    echo "Current branch: ${env.BRANCH_NAME}"
+                }
+            }
             stage('Docker Image building and pushing to dev repo'){
                  echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                 when {
