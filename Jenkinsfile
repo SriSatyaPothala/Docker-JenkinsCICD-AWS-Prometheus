@@ -20,6 +20,7 @@
             stage('show branch'){
                 steps{
                     sh "echo ${env.BRANCH_NAME}"
+                    sh "echo ${env.GIT_BRANCH}"
                 }
             }
             stage('Docker Image building and pushing to dev repo'){
