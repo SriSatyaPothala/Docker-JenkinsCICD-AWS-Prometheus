@@ -1,5 +1,5 @@
     pipeline{
-        agent { any }
+        agent any 
         environment{
             // Docker Hub Credentials
             DOCKER_HUB_USERNAME = credentials('docker-hub-credentials').getUsername()
