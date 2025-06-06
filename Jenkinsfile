@@ -9,11 +9,9 @@
             stage('Setting Branch Name') {
                  steps {
                     script {
-                    // Run git command to get the current branch
                     def fullbranch = "${env.GIT_BRANCH}"
-                    def branch = fullBranch.tokenize('/').last()
+                    def branch = fullbranch.tokenize('/').last()
                     echo "Detected Git branch: ${branch}"
-                    // Set it to environment variable
                     env.BRANCH_NAME = branch
                     }
                 }
