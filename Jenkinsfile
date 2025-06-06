@@ -9,7 +9,7 @@
             DOCKER_PROD_REPO = "srisatyap/prod"
         }
         stages{
-            stage('Docker Image building and pushing'){
+            stage('Docker Image building and pushing to dev repo'){
                 when {
                     branch 'dev'
                 }
