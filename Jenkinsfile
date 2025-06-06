@@ -7,6 +7,7 @@
         }
         stages{
             stage('Docker Image building and pushing to dev repo'){
+                 echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                 when {
                     branch 'dev'
                 }
