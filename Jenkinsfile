@@ -10,7 +10,8 @@
                  steps {
                     script {
                     // Run git command to get the current branch
-                    def branch = sh(script: "git rev-parse --abbrev-ref HEAD", returnStdout: true).trim()
+                    def fullbranch = "${env.GIT_BRANCH}"
+                    def branch = fullBranch.tokenize('/').last()
                     echo "Detected Git branch: ${branch}"
                     // Set it to environment variable
                     env.BRANCH_NAME = branch
@@ -20,7 +21,6 @@
             stage('show branch'){
                 steps{
                     sh "echo ${env.BRANCH_NAME}"
-                    sh "echo ${env.GIT_BRANCH}"
                 }
             }
             stage('Docker Image building and pushing to dev repo'){
