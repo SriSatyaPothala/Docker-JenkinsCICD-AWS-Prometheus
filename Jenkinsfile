@@ -20,7 +20,7 @@
                 }
             }
             stage('show branch'){
-                steps{:wq
+                steps{
                     sh "echo  ${env.BRANCH_NAME}"
                 }
             }
