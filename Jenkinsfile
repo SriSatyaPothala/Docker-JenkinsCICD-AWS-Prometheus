@@ -20,11 +20,11 @@
                 }
             }
             stage('show branch'){
-                steps{
-                    sh "echo ${env.BRANCH_NAME}"
+                steps{:wq
+                    sh "echo  ${env.BRANCH_NAME}"
                 }
             }
-            stage('Docker Image building and pushing to dev repo'){
+            stage('Docker Image build and push to dev repo'){
                 when {
                     expression { env.BRANCH_NAME == 'dev' }
                 }
@@ -43,7 +43,7 @@
                 }
             }
         }
-        stage('Docker Image building and pushing to prod repo'){
+        stage('Docker Image build and push to prod repo'){
                 when {
                     expression { env.BRANCH_NAME == 'main' }
                 }
