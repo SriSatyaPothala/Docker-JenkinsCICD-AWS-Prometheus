@@ -4,6 +4,9 @@
             // Docker Hub public and private repository names
             DOCKER_DEV_REPO = "srisatyap/dev"
             DOCKER_PROD_REPO = "srisatyap/prod"
+            CONTAINER_NAME = "prod-react-app"
+            EXPOSE_HOST = 80
+            PROD_HOST = "ubuntu@3.110.56.166"
         }
         stages{
             stage('Setting Branch Name') {
@@ -18,10 +21,10 @@
             }
             stage('show branch'){
                 steps{
-                    sh "echo ${env.BRANCH_NAME}"
+                    sh "echo  ${env.BRANCH_NAME}"
                 }
             }
-            stage('Docker Image building and pushing to dev repo'){
+            stage('Docker Image build and push to dev repo'){
                 when {
                     expression { env.BRANCH_NAME == 'dev' }
                 }
@@ -40,7 +43,7 @@
                 }
             }
         }
-        stage('Docker Image building and pushing to prod repo'){
+        stage('Docker Image build and push to prod repo'){
                 when {
                     expression { env.BRANCH_NAME == 'main' }
                 }
@@ -57,6 +60,26 @@
                         }
                 
                 }
+            }
+        }
+        // now ssh into ec2 from jenkins using ssh key and pull the image on ec2 and run it using script
+        stage('Deploy the application to Server'){
+            when {
+                expression { env.BRANCH_NAME == 'main' }
+            }
+            steps{
+                script{
+                    def releaseTag = "prodbuild-${env.BUILD_NUMBER}"
+                    echo "Initiating deployment of image to ec2: ${PROD_HOST}"
+                    sshagent(credentials: ['jenkins-ec2-deploy']){
+                        sh 'chmod +x ./deploy.sh'
+                        sh """ 
+                         ssh -o StrictHostKeyChecking=no ${PROD_HOST} 'bash -s' < deploy.sh "${DOCKER_PROD_REPO}:${releaseTag}" "${CONTAINER_NAME}" "${EXPOSE_HOST}"
+                        """
+                    }
+                    echo "SSH command to deploy has been sent to remote server"
+                }
+
             }
         }
     }
