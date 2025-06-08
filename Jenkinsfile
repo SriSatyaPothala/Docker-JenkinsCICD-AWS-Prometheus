@@ -6,7 +6,7 @@
             DOCKER_PROD_REPO = "srisatyap/prod"
             CONTAINER_NAME = "prod-react-app"
             EXPOSE_HOST = 80
-            PROD_HOST = "ubuntu@3.110.56.166"
+            PROD_HOST = "ubuntu@3.109.203.128"
         }
         stages{
             stage('Setting Branch Name') {
