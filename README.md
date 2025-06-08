@@ -90,6 +90,12 @@ This project outlines the architecture, deployment, and monitoring configuration
   - Docker Hub: Username and Password
   - EC2: SSH Username with Private Key
   - GitHub: Username and Password (for private repositories)
+- Jenkinsfile
+  - Create a Declarative pipeline here by writing all the stages needed for the development docker images and production docker images and deploying the application to EC2.
+  - The pipeline runs on any available agent and stages are run based on what branch the push or merge is happend in the github.
+  - If the push is happend on dev branch, stage with name Docker Image build and push to dev repository runs and pushes the docker image to docker hub public repository srisatyap/dev by running the build.sh script
+  - If the merge is happened on main branch from dev, then docker image is build and push to prod repository runs and pushes the docker image to docker hub private repository srisatyap/prod by running the build.sh script
+  - Besides, when the branch is main stage with name Deploy the application to Server runs and deploys the application to the EC2 production server by pulling the image from the private repository by running the deploy.sh script.
 - Pipeline Job Setup 
   - Access Jenkins dashboard
   - Create a new item → select Pipeline Job Name it: Final-React-1
