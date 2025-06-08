@@ -62,7 +62,7 @@
                 }
             }
         }
-        // now ssh into ec2 from jenkins using ssh key and pull the image on ec2 and run it using script
+        // now ssh into ec2 from jenkins using ssh key and pull the image and run the application in a container
         stage('Deploy the application to Server'){
             when {
                 expression { env.BRANCH_NAME == 'main' }
