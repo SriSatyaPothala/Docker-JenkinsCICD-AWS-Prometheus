@@ -1,0 +1,14 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'srisatyapothala11@gmail.com'
+  smtp_auth_username: 'srisatyapothala11@gmail.com'
+  smtp_auth_password: 'xtjubtbbutdfdgnn'
+
+route:
+  receiver: 'alert-to-gmail'
+
+receivers:
+  - name: 'alert-to-gmail'
+    email_configs:
+      - to: 'satyasreepothala114@gmail.com'
+
